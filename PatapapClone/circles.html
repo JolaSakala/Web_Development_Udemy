@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="circles.css">
+    <script type="text/javascript" src="paper-full.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.8/howler.js"></script>
+    <script type="text/javascript" src="data.js"></script>
+    <script type="text/paperscript" canvas="myCanvas">
+
+    var circles = [];
+    var sound1 = new Howl({
+        src: ['sounds/bubbles.mp3']
+    });
+    
+
+    function onKeyDown(event) {
+	// When a key is pressed, set the content of the text item:
+       if(keyData[event.key]){
+          var newCircle = new Path.Circle(new Point(Math.random()*myCanvas.width, Math.random()*myCanvas.height), 200+Math.random()*300);
+          newCircle.fillColor = keyData[event.key].color;
+          keyData[event.key].sound.play();
+          circles.push(newCircle);
+	}}
+
+    function onFrame(event){
+        for(var i = 0; i < circles.length; i++){
+            circles[i].scale(0.9);
+            circles[i].fillColor.hue += 1;
+            if(circles[i].area < 1){
+                    circles[i].remove(); // remove the circle from the canvas
+                        circles.splice(i, 1); // remove the circle from the array
+            i--; // decrement i so that the loop doesn't skip a circle because of .splice()
+            console.log(circles);
+            }
+        }
+    }
+
+
+
+
+ 
+    </script>
+</head>
+<body>
+    <canvas id="myCanvas" resize></canvas>
+</body>
+</html>
